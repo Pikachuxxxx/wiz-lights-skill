@@ -1,24 +1,18 @@
-# Gemini Instructions: Razix Build Lights
+# Gemini Instructions: WiZ Light Control
 
-Use this repository to check Razix build status and control WiZ lights.
+Use this repository to control WiZ smart lights and monitor Razix build status.
 
 ## Primary Scripts
 
-- `skills/razix-light-updates/scripts/run_razix_intent.py`
-- `skills/razix-light-updates/scripts/razix_build_light.py`
-- `skills/razix-light-updates/scripts/wiz_control.py`
+- `skills/wiz-light-control/scripts/run_razix_intent.py`
+- `skills/wiz-light-control/scripts/razix_build_light.py`
+- `skills/wiz-light-control/scripts/wiz_control.py`
 
 Run commands from the repository root unless absolute paths are used.
 
-## Preferred Execution Path
+## Overview
 
-Prefer the intent wrapper for user-facing requests:
-
-```bash
-python3 skills/razix-light-updates/scripts/run_razix_intent.py --intent "<user request>"
-```
-
-Use `--dry-run` first when validating command mapping.
+This skill focuses on natural language control for WiZ smart lights, with bonus capabilities for reporting Razix GitHub Actions build status, syncing light states to build results, and triggering fun lightshows based on build stats.
 
 ## Intent Mapping Rules
 
@@ -33,7 +27,7 @@ Map user requests to deterministic flags when possible:
 If request does not fit known patterns, pass through as NLP command:
 
 ```bash
-python3 skills/razix-light-updates/scripts/razix_build_light.py --command "<user request>"
+python3 skills/wiz-light-control/scripts/razix_build_light.py --command "<user request>"
 ```
 
 ## Common Overrides

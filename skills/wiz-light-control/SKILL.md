@@ -1,14 +1,14 @@
 ---
-name: razix-light-updates
-description: Use the local `razix_build_light.py` CLI to fetch Razix GitHub Actions build updates and control a WiZ light, including natural-language requests mapped to script arguments. Trigger this skill when users ask for Razix build status, syncing build state to lights, fun stats/lightshows, or quick NLP commands like "sync build light", "last build status", and "razix fun stats lightshow".
+name: wiz-light-control
+description: Control WiZ smart lights using natural language, featuring bonus capabilities for monitoring Razix GitHub Actions build status, syncing light states to build outcomes, and generating fun build-related stats and lightshows.
 ---
 
-# Razix Light Updates
+# WiZ Light Control
 
 ## Overview
 
-Use this skill to run fast Razix status and light-control tasks from natural language.
-Prefer deterministic CLI flags when possible, and fall back to `--command` for free-form requests.
+Use this skill for easy WiZ light control and Razix build status monitoring via natural language.
+It supports deterministic CLI flags for reliability and a flexible NLP mode for conversational requests.
 
 ## Quick Start
 
@@ -25,7 +25,7 @@ python3 razix_build_light.py --command "sync build light"
 Use the bundled wrapper for intent-to-args mapping:
 
 ```bash
-python3 "$CODEX_HOME/skills/razix-light-updates/scripts/run_razix_intent.py" \
+python3 "$CODEX_HOME/skills/wiz-light-control/scripts/run_razix_intent.py" \
   --intent "razix fun stats lightshow" \
   --repo "Pikachuxxxx/Razix" \
   --ip "192.168.0.120"

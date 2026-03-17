@@ -1,27 +1,24 @@
-# Razix Build Lights Skill Backup
+# WiZ Light Control Skill
 
-This repository contains a backup of the Codex skill used to check Razix build status and control a WiZ light based on build outcomes.
+This repository provides a Gemini CLI skill to control WiZ smart bulbs via natural language, with bonus capabilities for fetching Razix GitHub Actions build status and syncing light states to build outcomes.
 
-## Contents
+## Core Features
 
-- `skills/razix-light-updates/SKILL.md`: Skill trigger and workflow instructions
-- `skills/razix-light-updates/scripts/razix_build_light.py`: Main Razix build and light control script
-- `skills/razix-light-updates/scripts/wiz_control.py`: WiZ bulb control helper
-- `skills/razix-light-updates/scripts/run_razix_intent.py`: Intent-to-CLI wrapper for natural-language requests
-- `skills/razix-light-updates/references/intent-map.md`: Intent mapping reference
+- **WiZ Control**: Natural language commands for controlling smart bulbs.
+- **Razix Integration**: Check build status, sync light color to build results, and view fun build stats.
 
 ## Quick Usage
 
 Run from any directory:
 
 ```bash
-python3 /Users/phanisrikar/.codex/skills/razix-light-updates/scripts/run_razix_intent.py --intent "sync build light"
+python3 /Users/phanisrikar/.codex/skills/wiz-light-control/scripts/run_razix_intent.py --intent "sync build light"
 ```
 
 Or run from this repo backup copy:
 
 ```bash
-python3 skills/razix-light-updates/scripts/run_razix_intent.py --intent "last build status"
+python3 skills/wiz-light-control/scripts/run_razix_intent.py --intent "last build status"
 ```
 
 ## Common Intents
