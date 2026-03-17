@@ -39,6 +39,12 @@ class WizBulb:
     def set_brightness(self, brightness: int) -> Dict[str, Any]:
         return self.send({"method": "setPilot", "params": {"dimming": int(brightness)}}) or {}
 
+    def set_scene(self, scene_id: int, brightness: Optional[int] = None) -> Dict[str, Any]:
+        params: Dict[str, Any] = {"sceneId": int(scene_id)}
+        if brightness is not None:
+            params["dimming"] = int(brightness)
+        return self.send({"method": "setPilot", "params": params}) or {}
+
 
 def local_ip() -> str:
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
@@ -103,6 +109,8 @@ if __name__ == "__main__":
     parser.add_argument("--discover", action="store_true", help="Discover WiZ bulbs on local subnet")
     parser.add_argument("--subnet", help="Subnet for discovery, e.g. 192.168.0.0/24")
     parser.add_argument("--demo", action="store_true", help="Run on/red/brightness/off test")
+    parser.add_argument("--scene", type=int, help="Set scene ID")
+    parser.add_argument("--brightness", type=int, help="Set dimming/brightness (0-100)")
     args = parser.parse_args()
 
     if args.discover:
@@ -112,8 +120,13 @@ if __name__ == "__main__":
         if not args.ip:
             raise SystemExit("--demo requires --ip")
         run_demo(args.ip)
-    else:
-        if not args.ip:
-            raise SystemExit("Provide --ip, or use --discover")
+    elif args.ip:
         bulb = WizBulb(args.ip)
-        print(json.dumps(bulb.get_status(), indent=2))
+        if args.scene is not None:
+            print(json.dumps(bulb.set_scene(args.scene, brightness=args.brightness), indent=2))
+        elif args.brightness is not None:
+            print(json.dumps(bulb.set_brightness(args.brightness), indent=2))
+        else:
+            print(json.dumps(bulb.get_status(), indent=2))
+    else:
+        raise SystemExit("Provide --ip, or use --discover")

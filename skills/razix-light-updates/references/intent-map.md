@@ -9,6 +9,7 @@ Use this mapping before falling back to `--command`.
 - `fun stats` -> `--status --fun-stats`
 - `fun stats lightshow` -> `--status --fun-stats --fun-lightshow`
 - `lightshow` / `aura` / `party` -> `--fun-lightshow`
+- `music` / `rhythm` -> `--scene 31`
 
 ## Fallback
 
@@ -24,5 +25,6 @@ python3 razix_build_light.py --command "<user request>"
 - `--workflow "filter"`
 - `--ip 192.168.x.x`
 - `--token <github-token>`
+- `--scene 31`
 - `--delay 1.2`
 - `--json`

@@ -24,6 +24,23 @@ def build_args_from_intent(intent: str) -> list[str]:
     if "lightshow" in text or "light show" in text or "aura" in text or "party" in text:
         return ["--fun-lightshow"]
 
+    if "rhythm" in text or "music" in text:
+        if "apple music" in text or "system music" in text:
+            if "beat" in text or "match" in text or "drop" in text:
+                return ["apple-music-sync", "--mode", "beat"]
+            if "visualizer" in text or "pulse" in text or "sync" in text:
+                return ["apple-music-sync", "--mode", "visualizer"]
+            if "club" in text:
+                return ["apple-music-sync", "--mode", "scene", "--scene-id", "26"]
+            if "ocean" in text:
+                return ["apple-music-sync", "--mode", "scene", "--scene-id", "1"]
+            if "deep" in text or "dive" in text:
+                return ["apple-music-sync", "--mode", "scene", "--scene-id", "23"]
+            if "unique" in text or "color" in text:
+                return ["apple-music-sync", "--mode", "color"]
+            return ["apple-music-sync", "--mode", "scene", "--scene-id", "4"]
+        return ["--scene", "31"]
+
     # For broad or conversational requests, rely on the script's own NLP parser.
     return ["--command", intent]
 
@@ -53,8 +70,21 @@ def main() -> int:
         print(f"Error: script not found: {script_path}", file=sys.stderr)
         return 2
 
+    intent_args = build_args_from_intent(args.intent)
+    if intent_args and intent_args[0] == "apple-music-sync":
+        sync_script = Path(__file__).resolve().parent / "apple_music_sync.py"
+        cmd = [sys.executable, str(sync_script)]
+        cmd.extend(intent_args[1:]) # Pass --mode, --scene-id, etc.
+        if args.ip:
+            cmd.extend(["--ip", args.ip])
+        print("Executing Apple Music Sync:", shlex.join(cmd))
+        if args.dry_run:
+            return 0
+        result = subprocess.run(cmd)
+        return result.returncode
+
     cmd = [sys.executable, str(script_path)]
-    cmd.extend(build_args_from_intent(args.intent))
+    cmd.extend(intent_args)
 
     if args.repo:
         cmd.extend(["--repo", args.repo])

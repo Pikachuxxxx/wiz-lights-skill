@@ -45,6 +45,7 @@ python3 "$CODEX_HOME/skills/razix-light-updates/scripts/run_razix_intent.py" \
 - `--workflow "<substring>"`
 - `--ip <bulb-ip>`
 - `--token <github-token>`
+- `--scene <scene-id>`
 - `--delay <seconds>`
 - `--json`
 5. On failures, capture stderr and retry with a token for GitHub API limits/private data.

@@ -353,6 +353,22 @@ def run_nl_command(command: str, ip: str, repo: str, workflow: Optional[str], to
         print(WizBulb(ip).set_state(False))
         return
 
+    if "rhythm" in text or "music" in text:
+        print(WizBulb(ip).set_scene(31, brightness=100))
+        return
+
+    if "club mode" in text:
+        print(WizBulb(ip).set_scene(26, brightness=100))
+        return
+
+    if "ocean mode" in text:
+        print(WizBulb(ip).set_scene(1, brightness=100))
+        return
+
+    if "deepdive" in text or "deep dive" in text:
+        print(WizBulb(ip).set_scene(23, brightness=100))
+        return
+
     presets = {
         "red": (255, 0, 0, 100),
         "green": (0, 255, 0, 100),
@@ -390,18 +406,23 @@ def main() -> int:
     parser.add_argument("--set-light", action="store_true", help="Set light color from latest build status")
     parser.add_argument("--fun-stats", action="store_true", help="Print expanded repository fun stats")
     parser.add_argument("--fun-lightshow", action="store_true", help="Run a multi-phase stats-driven lightshow")
+    parser.add_argument("--scene", type=int, help="Set bulb to a specific WiZ scene ID (e.g. 31 for Rhythm/Music)")
     parser.add_argument("--delay", type=float, default=1.2, help="Seconds per phase in fun lightshow")
     parser.add_argument("--json", action="store_true", help="Print machine-readable JSON payload")
     parser.add_argument("--command", help="Natural language command for AI/web wrappers")
 
     args = parser.parse_args()
 
-    if not (args.status or args.set_light or args.fun_stats or args.fun_lightshow or args.command):
-        parser.error("Provide one of --status, --set-light, --fun-stats, --fun-lightshow, or --command")
+    if not (args.status or args.set_light or args.fun_stats or args.fun_lightshow or args.command or args.scene):
+        parser.error("Provide one of --status, --set-light, --fun-stats, --fun-lightshow, --scene, or --command")
 
     try:
         if args.command:
             run_nl_command(args.command, args.ip, args.repo, args.workflow, args.token, args.delay)
+            return 0
+
+        if args.scene is not None:
+            print(WizBulb(args.ip).set_scene(args.scene, brightness=100))
             return 0
 
         build = get_latest_build(args.repo, args.workflow, args.token)
